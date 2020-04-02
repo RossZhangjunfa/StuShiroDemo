@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--MySQL驱动Jar包的本地路径-->
+    <classPathEntry location="D:\ProjectZJF\apache-maven-3.6.1\Maven\repo\m2\mysql\mysql-connector-java\5.1.21\mysql-connector-java-5.1.21.jar"></classPathEntry>
+    <context id="MysqlRoss" defaultModelType="flat" targetRuntime="Mybatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+
+        <commentGenerator>
+            <!-- **阻止**生成注释，默认为false -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- **阻止**生成的注释包含时间戳，默认为false -->
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+        <!-- 数据库连接 -->
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://127.0.0.1:3306/shirotest?useAffectedRows=true&amp;characterEncoding=utf-8"
+                userId="root"
+                password="root">
+        </jdbcConnection>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!--
+                forceBigDecimals，该属性可以控制是否强制DECIMAL和NUMERIC类型的字段转换为Java类型的java.math.BigDecimal,默认值为false，一般不需要配置。
+                默认情况下的转换规则为：
+                    如果精度>0或者长度>18，就会使用java.math.BigDecimal
+                    如果精度=0并且10<=长度<=18，就会使用java.lang.Long
+                    如果精度=0并且5<=长度<=9，就会使用java.lang.Integer
+                    如果精度=0并且长度<5，就会使用java.lang.Short
+                如果设置为true，那么一定会使用java.math.BigDecimal
+            -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 指定实体类位置 -->
+        <javaModelGenerator targetPackage="com.ross.pojo" targetProject=".\src\main\java">
+            <!-- constructorBased:该属性只对MyBatis3有效，如果true就会使用构造方法入参，如果false就会使用setter方式。默认为false。 -->
+            <property name="constructorBased" value="true"/>
+            <!-- enableSubPackages:如果true，MBG会根据catalog和schema来生成子包。如果false就会直接用targetPackage属性。默认为false。-->
+            <property name="enableSubPackages" value="false" />
+            <!--
+                trimStrings:是否对数据库查询结果进行trim操作，如果设置为true就会生成类似这样
+                public void setUsername(String username) {
+                   this.username = username == null ? null : username.trim();
+                }
+                的setter方法。默认值为false。
+            -->
+            <property name="trimStrings" value="true" />
+
+            <!--
+                immutable:该属性用来配置实体类属性是否可变，
+                如果设置为true，那么constructorBased不管设置成什么，都会使用构造方法入参，并且不会生成setter方法。
+                如果为false，实体类属性就可以改变。默认为false。
+            -->
+            <property name="immutable" value="false"/>
+        </javaModelGenerator>
+
+        <!-- 指定mapper.xml位置 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 指定Mapper接口位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ross.dao" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!--数据库中的表名字，-->
+        <!--<table tableName="permission"> </table>
+        <table tableName="role"> </table>
+        <table tableName="user"> </table>-->
+        <table tableName="user_info"> </table>
+
+    </context>
+
+</generatorConfiguration>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ross.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ross.pojo.UserInfo">
+    <constructor>
+      <idArg column="rz_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="rz_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rz_sex" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rz_age" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rz_birthday" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rz_id, rz_name, rz_sex, rz_age, rz_birthday
+  </sql>
+  <select id="selectByExample" parameterType="com.ross.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where rz_id = #{rzId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where rz_id = #{rzId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ross.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ross.pojo.UserInfo">
+    insert into user_info (rz_id, rz_name, rz_sex, 
+      rz_age, rz_birthday)
+    values (#{rzId,jdbcType=INTEGER}, #{rzName,jdbcType=VARCHAR}, #{rzSex,jdbcType=VARCHAR}, 
+      #{rzAge,jdbcType=VARCHAR}, #{rzBirthday,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ross.pojo.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rzId != null">
+        rz_id,
+      </if>
+      <if test="rzName != null">
+        rz_name,
+      </if>
+      <if test="rzSex != null">
+        rz_sex,
+      </if>
+      <if test="rzAge != null">
+        rz_age,
+      </if>
+      <if test="rzBirthday != null">
+        rz_birthday,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rzId != null">
+        #{rzId,jdbcType=INTEGER},
+      </if>
+      <if test="rzName != null">
+        #{rzName,jdbcType=VARCHAR},
+      </if>
+      <if test="rzSex != null">
+        #{rzSex,jdbcType=VARCHAR},
+      </if>
+      <if test="rzAge != null">
+        #{rzAge,jdbcType=VARCHAR},
+      </if>
+      <if test="rzBirthday != null">
+        #{rzBirthday,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ross.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.rzId != null">
+        rz_id = #{record.rzId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rzName != null">
+        rz_name = #{record.rzName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rzSex != null">
+        rz_sex = #{record.rzSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rzAge != null">
+        rz_age = #{record.rzAge,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rzBirthday != null">
+        rz_birthday = #{record.rzBirthday,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set rz_id = #{record.rzId,jdbcType=INTEGER},
+      rz_name = #{record.rzName,jdbcType=VARCHAR},
+      rz_sex = #{record.rzSex,jdbcType=VARCHAR},
+      rz_age = #{record.rzAge,jdbcType=VARCHAR},
+      rz_birthday = #{record.rzBirthday,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ross.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="rzName != null">
+        rz_name = #{rzName,jdbcType=VARCHAR},
+      </if>
+      <if test="rzSex != null">
+        rz_sex = #{rzSex,jdbcType=VARCHAR},
+      </if>
+      <if test="rzAge != null">
+        rz_age = #{rzAge,jdbcType=VARCHAR},
+      </if>
+      <if test="rzBirthday != null">
+        rz_birthday = #{rzBirthday,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rz_id = #{rzId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ross.pojo.UserInfo">
+    update user_info
+    set rz_name = #{rzName,jdbcType=VARCHAR},
+      rz_sex = #{rzSex,jdbcType=VARCHAR},
+      rz_age = #{rzAge,jdbcType=VARCHAR},
+      rz_birthday = #{rzBirthday,jdbcType=VARCHAR}
+    where rz_id = #{rzId,jdbcType=INTEGER}
+  </update>
+</mapper>
